@@ -1,0 +1,11 @@
+# Database lokal; jangan diupload ke GitHub.
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+.env
+.env.*
+__pycache__/
+*.pyc
+.vscode/
+.DS_Store

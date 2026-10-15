@@ -1,0 +1,12 @@
+SECOND IN — revisi berdasarkan ETPFIKS(1).html
+
+Teks di beranda, kategori, filter, produk, form barang, marquee, produk rekomendasi, dan footer dipulihkan dari file HTML terakhir yang dikirim.
+File ACUAN_ASLI_ETPFIKS.html adalah salinan utuh file tersebut, tanpa diubah.
+
+Fitur tambahan marketplace yang memang tidak ada pada HTML asli (Akun, Keranjang, Pesan, Bantuan, Pesanan) tetap membutuhkan label sendiri agar dapat digunakan.
+
+Python + PostgreSQL/SQLite, konfigurasi GitHub/Render, dan foto produk tetap dipertahankan.
+Untuk foto barang baru, platform versi ini masih menggunakan URL foto, bukan upload file.
+
+Jalankan lokal: JALANKAN_WINDOWS.bat, lalu buka http://127.0.0.1:8000.
+Untuk online gunakan README_GITHUB_RENDER.md.

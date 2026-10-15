@@ -1,0 +1,154 @@
+/* Tambahan untuk demo UTS. Palet dan font tetap memakai gaya asli pengguna. */
+[hidden],.site-page[hidden],.si-overlay[hidden]{display:none!important}
+html{scroll-padding-top:80px}
+body{min-width:0}
+main{min-height:55vh}
+.navbar{background:rgba(245,245,235,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-right a.nav-icon{position:relative;text-decoration:none}
+.nav-right .cart-count{position:absolute;top:-5px;right:-5px}
+.nav-center a.active::after{bottom:-10px}
+.mobile-menu{top:74px}
+.site-page{animation:appear .22s ease both}
+.hero{min-height:calc(100svh - 20px);align-items:center}
+.hero-visual.hero-visual-single{width:100%;height:auto;aspect-ratio:1/1;max-width:590px;justify-self:end;display:flex;align-items:stretch;justify-content:stretch}
+.hero-visual.hero-visual-single::before{display:none!important}
+.hero-visual.hero-visual-single .hero-photo{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;aspect-ratio:1/1;object-fit:cover;object-position:center;border-radius:24px;transform:none}
+.hero-visual.hero-visual-single .hero-photo:hover{transform:none}
+.si-home-products{background:#fff}
+.si-muted{color:var(--muted);font-size:13px;line-height:1.7}
+.si-home-products .si-muted{margin-top:5px}
+.si-top-section{padding-top:140px;min-height:72vh}
+.si-page-title{margin-bottom:27px}.si-page-title h2{font-family:"Plus Jakarta Sans",sans-serif;font-size:clamp(30px,4vw,44px);letter-spacing:-1.5px;margin-bottom:10px}.si-page-title>p{color:var(--muted);font-size:14px;line-height:1.7}
+.si-panel{background:white;border:1px solid var(--line);padding:25px;border-radius:22px;min-width:0}
+.si-panel h3{font-size:19px;font-family:"Plus Jakarta Sans",sans-serif;letter-spacing:-.3px;margin:0 0 18px}
+.si-panel-top{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.si-form-panel{max-width:830px;margin-bottom:38px}.si-form .primary-btn{margin-top:7px}
+.si-note{color:var(--muted);font-size:12px;line-height:1.65;display:block;margin:12px 0 0}
+.si-seller-list{margin-top:24px}
+.si-form input,.si-form select,.si-form textarea{width:100%;max-width:100%;font:inherit}
+.si-form .field label{font-size:12px}
+.si-form .field textarea{min-height:120px}
+.si-browse-search{width:min(590px,100%);margin-bottom:22px}
+.si-empty{padding:55px 18px;text-align:center;color:var(--ink);font-size:17px;line-height:1.8;background:var(--bg);border-radius:20px;margin-top:12px}
+.si-empty span{color:var(--muted);font-size:13px}
+.si-chat-layout{display:grid;grid-template-columns:minmax(215px,.7fr) minmax(0,1.5fr);gap:18px;align-items:stretch}
+.si-threads{display:flex;flex-direction:column;gap:9px;max-height:490px;overflow:auto}
+.si-thread{padding:12px 13px;text-align:left;border:1px solid var(--line);border-radius:12px;background:#fbfcf9;color:var(--ink);width:100%}
+.si-thread.active,.si-thread:hover{background:var(--pink2);border-color:var(--green)}
+.si-thread strong{display:block;font-size:13px}.si-thread small{display:block;font-size:11px;color:var(--muted);margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.si-message-column{display:flex;flex-direction:column;min-height:370px}.si-messages{display:flex;flex-direction:column;gap:10px;flex:1;max-height:425px;min-height:230px;overflow-y:auto;padding:18px 0}
+.si-message{max-width:86%;padding:11px 13px;border-radius:15px;background:#eef1e7;align-self:flex-start;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.si-message.mine{align-self:flex-end;background:var(--pink);color:#fff}
+.si-message small{display:block;font-size:10px;opacity:.7;margin-top:5px}
+.si-auth-wrap,.si-account-lists,.si-help-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.si-account-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+.si-account-head h3{margin-bottom:5px}
+.si-demo-note{margin-top:25px;border:1px dashed var(--green2);border-radius:15px;padding:15px 18px;font-size:12px;line-height:1.8;max-width:750px;color:var(--ink)}
+.si-demo-note strong{display:block;margin-bottom:4px}.si-demo-note code{font-size:12px}.si-demo-note small{display:block;color:var(--muted)}
+.si-help-grid{margin-bottom:18px}.si-help-grid .si-panel{height:100%}.si-help-grid p,.si-panel details p,.si-panel>p{font-size:13px;line-height:1.8;color:var(--muted)}
+.si-panel summary{cursor:pointer;font-weight:700}.si-panel summary+p{margin-top:13px}
+.si-cart-items{display:flex;flex-direction:column;gap:12px}.si-cart-line{display:grid;grid-template-columns:84px 1fr auto;gap:14px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px}
+.si-cart-line img{width:84px;height:84px;object-fit:cover;border-radius:12px;background:var(--pink2)}.si-cart-line strong{font-size:13px}.si-cart-line p{font-size:12px;color:var(--muted);margin-top:6px}
+.si-mini-link{border:0;background:none;color:var(--pink);font-size:12px;text-decoration:underline;cursor:pointer}
+.si-right-actions{text-align:right}
+.si-order{padding:14px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.7}
+.si-order:first-child{padding-top:0}.si-order:last-child{border:0}.si-order strong{font-size:13px}.si-order small{color:var(--muted)}
+.si-order select{max-width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);margin-top:8px}
+.si-product-img{background:var(--pink2);object-fit:cover}
+.product-image{aspect-ratio:1/1;height:auto!important}
+.products{align-items:start;grid-template-columns:repeat(4,minmax(0,1fr))}
+.product{min-width:0}.product-info{min-width:0}.product-name{overflow-wrap:anywhere}.product-bottom{gap:8px;flex-wrap:wrap}
+.product-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px}
+.product-actions button{min-width:0;white-space:normal}
+.product-heart{line-height:1}
+.si-out-of-stock{opacity:.6}
+.si-out-of-stock .product-image::after{content:"Sudah dipesan";position:absolute;inset:auto 7px 8px;z-index:4;padding:8px;border-radius:8px;text-align:center;background:rgba(245,245,235,.92);font-size:12px;font-weight:700}
+.si-detail-modal{width:min(740px,100%)}.si-detail-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:22px}
+.si-detail-grid img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:17px;background:var(--pink2)}
+.si-detail-grid h3{font-size:24px;line-height:1.3;margin-bottom:8px;padding-right:25px}.si-detail-grid .detail-price{font-size:22px;margin:10px 0}.si-detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.si-detail-actions button{margin:0}
+.si-detail-grid p{font-size:13px;color:var(--muted);line-height:1.7;margin-top:7px}
+.si-overlay{display:none}.si-overlay.open{display:flex}
+.si-cart-items:empty::after,.si-threads:empty::after{content:"Belum ada isinya.";color:var(--muted);font-size:13px;padding:15px 0}
+.sell-box{margin-bottom:0}
+@media(max-width:1050px){.products{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{grid-template-columns:minmax(0,1fr) minmax(300px,.85fr);gap:25px}.hero-visual.hero-visual-single{height:auto}}
+@media(max-width:760px){
+ .navbar{height:68px}.mobile-menu{top:70px}.nav-center{display:none}.menu{display:flex}
+ .si-top-section{padding-top:112px}
+ .hero{grid-template-columns:1fr;gap:24px;padding-top:109px;padding-bottom:30px;min-height:unset}
+ .hero-copy{max-width:none}.hero-visual.hero-visual-single{width:100%;max-width:none;aspect-ratio:1/1;margin:4px auto 0;height:auto}
+ .hero-visual.hero-visual-single .hero-photo{width:100%!important;height:100%!important;border-radius:20px;object-fit:cover}
+ .products{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}
+ .si-auth-wrap,.si-account-lists,.si-help-grid,.si-chat-layout{grid-template-columns:1fr}
+ .si-message-column{min-height:310px}
+ .si-panel{padding:20px}.si-top-section .form-grid{grid-template-columns:1fr}
+ .si-panel .field.full{grid-column:auto}
+ .si-cart-line{grid-template-columns:65px 1fr auto;gap:9px}.si-cart-line img{height:65px;width:65px}
+ .si-detail-grid{grid-template-columns:1fr}.si-detail-grid img{max-height:300px}
+ .si-page-title{margin-bottom:24px}
+ .categories{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .market-controls{gap:9px;align-items:stretch}.price-range{min-width:0;width:100%}.price-range input{min-width:0;width:0;flex:1}
+ .sort-select{width:100%;margin-left:0}
+ .section-heading{gap:12px}
+}
+@media(max-width:420px){
+ .navbar{padding:0 14px}.logo{width:120px;height:46px}.nav-right{gap:5px}.nav-icon{width:36px;height:36px}
+ .hero{padding-left:16px;padding-right:16px}.hero h1{font-size:clamp(36px,10.7vw,44px);letter-spacing:-1.7px;line-height:1.02}
+ .hero-mini{font-size:11px}.hero-visual.hero-visual-single{width:100%;height:auto;aspect-ratio:1/1}.hero-visual.hero-visual-single .hero-photo{width:100%!important;height:100%!important;aspect-ratio:1/1}
+ .si-top-section{padding-left:16px;padding-right:16px}.products{gap:18px 10px}.product-actions{grid-template-columns:1fr}.product-actions button{width:100%;font-size:11px;padding:8px}
+ .product-name,.price{font-size:12px!important}.condition{font-size:10px!important}
+ .si-cart-line{grid-template-columns:58px minmax(0,1fr)}.si-cart-line img{height:58px;width:58px}.si-cart-line .si-mini-link{grid-column:2;justify-self:start}
+ .hero .search-wrap{width:100%}.search-icon{flex:0 0 35px}.search-btn{flex:0 0 auto}
+ footer{gap:16px}
+}
+
+/* Final photo override: square, including specificity of original mobile rule. */
+.hero-visual.hero-visual-single > img.hero-photo{width:100%!important;height:100%!important;max-width:none!important;aspect-ratio:1/1!important;object-fit:cover;}
+@media(max-width:760px){.hero-visual.hero-visual-single > img.hero-photo{width:100%!important;height:100%!important;aspect-ratio:1/1!important;max-width:none!important}}
+
+/* Kata-kata & elemen asli ETPFIKS(1) */
+.si-empty-asli{background:transparent;border-radius:0;}
+.si-empty-asli .empty-face{font-size:42px;margin-bottom:8px;}
+.si-empty-asli h3{font-family:"Plus Jakarta Sans",sans-serif;font-size:24px;}
+.recommend-card[data-detail]{cursor:pointer;}
+.recommend-card img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;}
+.si-account-link{display:inline-flex;align-items:center;justify-content:center;}
+@media(max-width:650px){.si-account-link{display:none;}}
+
+
+/* Perbaikan posisi "Scroll dulu, yuk!": judul selalu di atas produk.
+   Tidak mengubah kata, warna, data, atau tampilan halaman lainnya. */
+.si-home-products{
+    display:block !important;
+}
+.si-home-products > .section-heading{
+    display:flex !important;
+    position:static !important;
+    width:100%;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin:0 0 30px;
+    transform:none !important;
+}
+.si-home-products > .products{
+    display:grid;
+    width:100%;
+    min-width:0;
+    clear:both;
+}
+@media(max-width:760px){
+    .si-home-products > .section-heading{
+        align-items:flex-start;
+        gap:12px;
+        margin-bottom:22px;
+    }
+}
+
+/* Versi kotak untuk semua elemen, termasuk CSS halaman asli. */
+*, *::before, *::after {border-radius:0 !important;}
+
+/* Halaman Pesan/Bantuan: hanya status Coming Soon. */
+.si-coming-page{display:flex;align-items:center;justify-content:center;text-align:center;min-height:calc(100svh - 90px);padding-top:115px;padding-bottom:70px;}
+.si-coming-content{width:100%;max-width:740px;margin:0 auto;padding:55px 20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.si-coming-content .eyebrow{margin-bottom:14px;}
+.si-coming-content h2{font:800 clamp(48px,9vw,92px)/1.08 "Plus Jakarta Sans",sans-serif;letter-spacing:-.035em;color:var(--ink);}
+@media(max-width:650px){.si-coming-page{min-height:calc(85svh - 70px);padding-top:92px;}.si-coming-content{padding:44px 12px;}}

@@ -1,0 +1,20 @@
+PROJEK ETP #4 - SECOND IN
+
+CARA MEMBUKA DI WINDOWS
+1. Ekstrak ZIP hingga folder PROJEK ETP #4 terlihat.
+2. Klik dua kali JALANKAN_WINDOWS.bat.
+3. Tunggu terminal Python terbuka, lalu buka http://localhost:8000 di Chrome.
+4. Jika sebelumnya sudah membuka versi lama, tekan Ctrl + Shift + R.
+
+REVISI TERAKHIR
+- Halaman Pesan dan Bantuan menampilkan Coming Soon.
+- Sudut elemen website berbentuk kotak.
+- Form Jual Barang menerima JPG/JPEG/PNG (maksimum 5 MB).
+- Gambar upload disimpan dalam folder uploads saat server berjalan.
+
+DATABASE
+- Saat pertama kali dijalankan, Python membuat second_in.db secara otomatis.
+- Jika sudah punya database berisi barang sendiri, salin second_in.db LAMA ke folder ini SEBELUM menjalankan server.
+- Jangan menimpa database lama kalau ingin mempertahankan barang yang sudah kamu posting.
+
+CATATAN: Saat website di-host pada Render tanpa penyimpanan permanen, file di folder uploads bisa hilang setelah deploy atau restart instance. Untuk penggunaan publik, pakai penyimpanan file cloud.

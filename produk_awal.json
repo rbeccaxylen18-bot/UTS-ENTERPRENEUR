@@ -1,0 +1,101 @@
+[
+  {
+    "name": "Galon Aqua Kosong",
+    "category": "lainnya",
+    "price": 10000,
+    "condition": "Sangat baik",
+    "badge": "Baru masuk",
+    "image_url": "https://i.pinimg.com/1200x/0e/58/c6/0e58c6612f48e7dd3d7a58ab5fb3e206.jpg",
+    "description": ""
+  },
+  {
+    "name": "Mizuno Celana Sport Size 29",
+    "category": "pakaian",
+    "price": 20000,
+    "condition": "Kondisi baik",
+    "badge": "Pilihan",
+    "image_url": "https://i.pinimg.com/1200x/fc/5f/ef/fc5fef053bdc5ad6a1f26bdfee55f154.jpg",
+    "description": ""
+  },
+  {
+    "name": "Fladeo Flat Shoes ORI Hitam Wanita Kantoran",
+    "category": "sepatu",
+    "price": 78000,
+    "condition": "Sangat baik",
+    "badge": "Realpict",
+    "image_url": "https://i.pinimg.com/736x/9c/67/ab/9c67ab98f08617ac244fbe07a5009579.jpg",
+    "description": ""
+  },
+  {
+    "name": "Jedai Rambut Get 3",
+    "category": "aksesori",
+    "price": 10000,
+    "condition": "Kondisi baik",
+    "badge": "Murah",
+    "image_url": "https://i.pinimg.com/1200x/77/a2/9b/77a29b2a63d0f5ba69030a1c837101cf.jpg",
+    "description": ""
+  },
+  {
+    "name": "Ransel Kuliah FROSTOR",
+    "category": "tas",
+    "price": 30000,
+    "condition": "Kondisi baik",
+    "badge": "",
+    "image_url": "https://i.pinimg.com/1200x/37/8c/fb/378cfba05e6d7d413c2d9430f5a0e8a8.jpg",
+    "description": ""
+  },
+  {
+    "name": "Jaket Denim Vintage",
+    "category": "pakaian",
+    "price": 70000,
+    "condition": "Kondisi baik",
+    "badge": "Favorit",
+    "image_url": "https://i.pinimg.com/1200x/ab/47/32/ab473263a4a5450e8a1560540bd6ea17.jpg",
+    "description": ""
+  },
+  {
+    "name": "Adidas Jaket Sport",
+    "category": "pakaian",
+    "price": 80000,
+    "condition": "Kondisi baik",
+    "badge": "Favorit",
+    "image_url": "https://i.pinimg.com/736x/1c/30/e9/1c30e9244fbebc5863175ef5ff4b1b2a.jpg",
+    "description": ""
+  },
+  {
+    "name": "Jersey Bola Voli",
+    "category": "pakaian",
+    "price": 300000,
+    "condition": "Kondisi baik",
+    "badge": "Favorit",
+    "image_url": "https://i.pinimg.com/736x/23/31/16/23311655f2d5fd0bf97b70d37ac00b2f.jpg",
+    "description": ""
+  },
+  {
+    "name": "Adidas Samba",
+    "category": "sepatu",
+    "price": 1150000,
+    "condition": "Sangat baik",
+    "badge": "",
+    "image_url": "https://i.pinimg.com/736x/32/b4/c6/32b4c6b6f9781285a814cde7ec85d7ea.jpg",
+    "description": ""
+  },
+  {
+    "name": "Jam Tangan Wanita",
+    "category": "aksesori",
+    "price": 30000,
+    "condition": "Kondisi baik",
+    "badge": "Klasik",
+    "image_url": "https://i.pinimg.com/1200x/43/6e/4e/436e4e1679ae1546cb8014d72f1cea93.jpg",
+    "description": ""
+  },
+  {
+    "name": "Tas Bostanten Belum Dipakai ORI",
+    "category": "tas",
+    "price": 125000,
+    "condition": "Kondisi baik",
+    "badge": "",
+    "image_url": "https://i.pinimg.com/736x/5b/5f/19/5b5f19960eeb511ecb4a1e22dd64dc60.jpg",
+    "description": ""
+  }
+]

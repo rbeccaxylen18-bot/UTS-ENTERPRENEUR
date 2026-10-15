@@ -1,0 +1,21 @@
+# GitHub -> Render (Web Service) -> Render PostgreSQL
+# Tidak ada password database yang disimpan di GitHub.
+services:
+  - type: web
+    name: second-in-uts
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: second-in-uts-db
+          property: connectionString
+
+databases:
+  - name: second-in-uts-db
+    databaseName: second_in
+    plan: free
+    ipAllowList: []
