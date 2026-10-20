@@ -1,3 +1,3 @@
-#!/usr/bin/env sh
+#!/bin/sh
 cd "$(dirname "$0")" || exit 1
-python3 server.py
+exec python3 start_secondin.py

@@ -11,12 +11,22 @@ from urllib.parse import parse_qs, urlsplit
 ROOT = Path(__file__).resolve().parent
 UPLOAD_DIR = ROOT / 'uploads'
 UPLOAD_DIR.mkdir(exist_ok=True)
-DBFILE = ROOT / 'second_in.db'
+DBFILE = Path(os.environ.get('SECONDIN_DB', str(ROOT / 'second_in.db')))
 SCHEMA = (ROOT / 'schema.sql').read_text(encoding='utf-8')
 SEEDFILE = ROOT / 'produk_awal.json'
 PORT = int(os.environ.get('PORT', '8000'))
 DATABASE_URL = os.environ.get('DATABASE_URL', '').strip()
 ONLINE_DB = DATABASE_URL.startswith(('postgres://', 'postgresql://'))
+
+EDITION = 'ETP #5'
+REVISION = 'etp5-profile-google-20261020-r8'
+def build_info():
+    files = ['index.html','app.js','market.css','marketplace.py','start_secondin.py','hero_pinterest.jpg','google_login.py']
+    digest = hashlib.sha256()
+    for filename in files:
+        file = ROOT / filename
+        if file.is_file():digest.update(file.read_bytes())
+    return {'project':'SECOND IN','edition':EDITION,'revision':REVISION,'build':digest.hexdigest()[:16]}
 
 class ApiError(Exception):
     def __init__(self, message, status=400): super().__init__(message); self.status=status
@@ -78,7 +88,7 @@ class PgConnection:
         # Kunci baris produk sewaktu checkout agar tidak terjual dua kali.
         if query.upper().startswith('SELECT P.* FROM CART_ITEMS C JOIN PRODUCTS P') and 'FOR UPDATE' not in sql:
             sql += ' FOR UPDATE OF p'
-        insert_id = bool(re.match(r'^INSERT\s+INTO\s+(users|products|orders)\b', query, re.I))
+        insert_id = bool(re.match(r'^INSERT\s+INTO\s+(users|products|orders|addresses|offers|reviews|notifications|order_events)\b', query, re.I))
         if insert_id:
             sql += ' RETURNING id'
         sql = sql.replace('?', '%s')
@@ -91,10 +101,15 @@ class PgConnection:
                 self.connection.execute(statement)
 
 
+class LocalConnection(sqlite3.Connection):
+    def __exit__(self, *args):
+        try: return super().__exit__(*args)
+        finally: self.close()
+
 def db():
     if ONLINE_DB:
         return PgConnection()
-    connection = sqlite3.connect(DBFILE, timeout=8)
+    connection = sqlite3.connect(DBFILE, timeout=8, factory=LocalConnection)
     connection.row_factory = sqlite3.Row
     connection.execute('PRAGMA foreign_keys=ON')
     connection.execute('PRAGMA busy_timeout=8000')
@@ -135,10 +150,12 @@ def init_db():
                     con.execute('INSERT INTO products(seller_id,name,category,price,condition,description,image_url,badge,stock) VALUES(?,?,?,?,?,?,?,?,1)',
                                 (seller['id'],p['name'],p['category'],p['price'],p['condition'],p['description'],p['image_url'],p['badge']))
 
+        from marketplace import migrate
+        migrate(con, ONLINE_DB)
+
 def product_dict(row):
-    d = dict(row)
-    d['available'] = d.get('stock',0)>0
-    return d
+    from marketplace import public_product
+    return public_product(row)
 
 class Handler(BaseHTTPRequestHandler):
     server_version = 'SecondInDemo/1.0'
@@ -172,7 +189,7 @@ class Handler(BaseHTTPRequestHandler):
         token=self.token()
         if not token:return None
         key=hashlib.sha256(token.encode()).hexdigest()
-        row=con.execute('SELECT users.id, users.name, users.email FROM sessions JOIN users ON users.id=sessions.user_id WHERE token_hash=?',(key,)).fetchone()
+        row=con.execute('SELECT users.id, users.name, users.email, users.city, users.bio, users.phone, users.avatar_url, CASE WHEN length(users.google_sub)>0 THEN 1 ELSE 0 END google_linked FROM sessions JOIN users ON users.id=sessions.user_id WHERE token_hash=?',(key,)).fetchone()
         return dict(row) if row else None
     def require(self,con):
         u=self.user(con)
@@ -220,10 +237,11 @@ class Handler(BaseHTTPRequestHandler):
         query=parse_qs(urlsplit(self.path).query)
         try:
             with db() as con:
+                if method in ('POST','PATCH','DELETE'):con.execute('BEGIN IMMEDIATE')
                 result=self.api(con,method,path,query)
-                if result is not None:
-                    data,status,cookie=result
-                    self.reply(data,status,cookie)
+            if result is not None:
+                data,status,cookie=result
+                self.reply(data,status,cookie)
         except ApiError as e:self.reply({'message':str(e)},e.status)
         except sqlite3.IntegrityError:self.reply({'message':'Data tidak dapat disimpan. Coba periksa kembali.'},409)
         except (ValueError,TypeError):self.reply({'message':'Data tidak valid.'},400)
@@ -233,9 +251,11 @@ class Handler(BaseHTTPRequestHandler):
             print('SERVER ERROR:',repr(e),file=sys.stderr)
             self.reply({'message':'Terjadi kendala pada server.'},500)
     def page(self,path):
-        if path in ('/','/beranda','/jelajahi','/jual','/keranjang','/favorit','/pesan','/akun','/bantuan'):
+        if path in ('/','/beranda','/jelajahi','/jual','/keranjang','/favorit','/pesan','/akun','/masuk','/daftar','/bantuan','/barang','/toko','/checkout','/pembayaran','/pesanan','/alamat','/notifikasi'):
             file=ROOT/'index.html'
-        elif path in ('/app.js','/gaya_asli.css','/tambahan.css','/logo_second_in.png'):
+        elif path in ('/app.js','/gaya_asli.css','/tambahan.css','/market.css','/fallback.svg','/logo_second_in.png','/hero_pinterest.jpg'):
+            file=ROOT/path.lstrip('/')
+        elif path in ('/assets/fonts/lato-regular.ttf','/assets/fonts/lato-bold.ttf'):
             file=ROOT/path.lstrip('/')
         elif re.fullmatch(r'/uploads/[a-f0-9]{32}\.(png|jpg)',path):
             file=UPLOAD_DIR/path.rsplit('/',1)[-1]
@@ -250,18 +270,26 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Length',str(len(data)))
         self.end_headers();self.wfile.write(data)
     def api(self,con,method,path,query):
+        if path=='/api/build' and method=='GET':return (build_info(),200,None)
+        from google_login import handle as google_handle
+        google_result=google_handle(self,con,method,path,ApiError,hash_password)
+        if google_result is not None:return google_result
+        from marketplace import handle
+        extended=handle(self,con,method,path,query,ApiError)
+        if extended is not None:return extended
         out=lambda data,status=200,cookie=None:(data,status,cookie)
         if path=='/api/me' and method=='GET':return out({'user':self.user(con)})
         if path=='/api/register' and method=='POST':
             v=self.json_body();name=str(v.get('name','')).strip();email=str(v.get('email','')).strip().lower();password=str(v.get('password',''))
-            if len(name)<2 or len(name)>80 or '@' not in email or len(email)>150 or len(password)<8:raise ApiError('Isi nama, email, dan password minimal 8 karakter.')
+            if len(name)<2 or len(name)>80 or '@' not in email or len(email)>150 or len(password)<8 or len(password)>128:raise ApiError('Isi nama, email, dan password minimal 8 karakter.')
             if con.execute('SELECT 1 FROM users WHERE email=?',(email,)).fetchone():raise ApiError('Email ini sudah terdaftar.',409)
             cur=con.execute('INSERT INTO users(name,email,password_hash) VALUES (?,?,?)',(name,email,hash_password(password)))
             return self.new_session(con,int(cur.lastrowid),out)
         if path=='/api/login' and method=='POST':
             v=self.json_body();email=str(v.get('email','')).strip().lower();password=str(v.get('password',''))
             row=con.execute('SELECT * FROM users WHERE email=?',(email,)).fetchone()
-            if not row or not check_password(password,row['password_hash']):raise ApiError('Email atau password salah.',401)
+            if not row:return out({'message':'Email ini belum terdaftar. Buat akun dulu, yuk.','code':'ACCOUNT_NOT_FOUND'},404)
+            if not check_password(password,row['password_hash']):raise ApiError('Email atau password salah.',401)
             return self.new_session(con,row['id'],out)
         if path=='/api/logout' and method=='POST':
             token=self.token()
@@ -323,7 +351,6 @@ class Handler(BaseHTTPRequestHandler):
             u=self.require(con);p_id=int(path.rsplit('/',1)[-1]);con.execute('DELETE FROM cart_items WHERE user_id=? AND product_id=?',(u['id'],p_id));return out({'ok':True})
         if path=='/api/orders' and method=='POST':
             u=self.require(con)
-            con.execute('BEGIN IMMEDIATE')
             rows=con.execute('SELECT p.* FROM cart_items c JOIN products p ON p.id=c.product_id WHERE c.user_id=?',(u['id'],)).fetchall()
             if not rows:raise ApiError('Keranjang masih kosong.')
             if any(p['stock']!=1 or p['seller_id']==u['id'] for p in rows):raise ApiError('Ada barang yang sudah tidak tersedia atau milik sendiri.',409)
@@ -364,7 +391,8 @@ class Handler(BaseHTTPRequestHandler):
             con.execute('UPDATE orders SET status=? WHERE id=?',(status,order_id))
             return out({'ok':True,'status':status})
         if path=='/api/wishlist' and method=='GET':
-            u=self.require(con);rows=con.execute('SELECT p.*, users.name seller_name FROM wishlists w JOIN products p ON p.id=w.product_id JOIN users ON users.id=p.seller_id WHERE w.user_id=? ORDER BY p.id DESC',(u['id'],))
+            from marketplace import PRODUCT_SQL
+            u=self.require(con);rows=con.execute(PRODUCT_SQL+' WHERE p.id IN (SELECT product_id FROM wishlists WHERE user_id=?) ORDER BY p.id DESC',(u['id'],))
             return out({'products':[product_dict(x) for x in rows]})
         if path.startswith('/api/wishlist/') and method=='POST':
             u=self.require(con);p_id=int(path.rsplit('/',1)[-1])
@@ -372,7 +400,8 @@ class Handler(BaseHTTPRequestHandler):
             existing=con.execute('SELECT 1 FROM wishlists WHERE user_id=? AND product_id=?',(u['id'],p_id)).fetchone()
             if existing:con.execute('DELETE FROM wishlists WHERE user_id=? AND product_id=?',(u['id'],p_id));liked=False
             else:con.execute('INSERT INTO wishlists(user_id,product_id) VALUES(?,?)',(u['id'],p_id));liked=True
-            return out({'liked':liked})
+            count=con.execute('SELECT COUNT(*) FROM wishlists WHERE product_id=?',(p_id,)).fetchone()[0]
+            return out({'liked':liked,'like_count':count})
         if path=='/api/conversations' and method=='GET':
             u=self.require(con)
             rows=con.execute('''SELECT m.product_id,m.buyer_id,p.name product_name,p.image_url,
@@ -413,7 +442,7 @@ class Handler(BaseHTTPRequestHandler):
     def new_session(self,con,user_id,out):
         token=secrets.token_urlsafe(32)
         con.execute('INSERT INTO sessions(token_hash,user_id) VALUES(?,?)',(hashlib.sha256(token.encode()).hexdigest(),user_id))
-        user=con.execute('SELECT id,name,email FROM users WHERE id=?',(user_id,)).fetchone()
+        user=con.execute('SELECT id,name,email,city,bio,phone,avatar_url,CASE WHEN length(google_sub)>0 THEN 1 ELSE 0 END google_linked FROM users WHERE id=?',(user_id,)).fetchone()
         cookie=f'secondin_session={token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=604800' + ('; Secure' if self.is_https() else '')
         return out({'user':dict(user)},200,cookie)
 

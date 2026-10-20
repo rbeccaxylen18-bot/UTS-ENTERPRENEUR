@@ -1,0 +1,26 @@
+LOGIN GOOGLE — SECOND IN
+
+Status paket: kode login Google sudah disertakan. Belum aktif karena proyek ini belum memiliki OAuth Client ID kalian. Tidak ada akun atau Client ID contoh yang dipakai untuk membuat login seolah-olah berhasil.
+
+AKTIFKAN DI WINDOWS
+1. Buka https://console.cloud.google.com/ dan pilih/buat proyek milik kalian.
+2. Buka Google Auth Platform. Lengkapi Branding/Audience, lalu buat OAuth Client bertipe Web application. Jika masih Testing, tambahkan akun penguji di Audience sesuai pengaturan proyek Google.
+3. Tambahkan Authorized JavaScript origins: http://localhost:8015
+4. Klik AKTIFKAN_LOGIN_GOOGLE.bat dan masukkan Client ID berakhiran .apps.googleusercontent.com. Script memasang google-auth dan requests dari pip, lalu menyimpan Client ID publik ke google_config.json. Client Secret tidak diperlukan untuk alur ini.
+5. Jalankan BUKA_BERANDA_BARU.bat. Gunakan alamat http://localhost:8015 yang dibuka otomatis. Tombol resmi Google muncul di halaman Masuk dan Daftar.
+
+Jika port 8015 dipakai, peluncur akan memilih port lain. Port tersebut harus didaftarkan juga di Authorized JavaScript origins; paling mudah hentikan terminal SECOND IN lama dan jalankan ulang di port 8015. Halaman dengan origin yang belum didaftarkan akan ditolak Google.
+
+MAC/LINUX ATAU HOSTING
+Jalankan python3 setup_google.py, atau pasang requirements-google.txt lalu isi google_config.json. Untuk hosting, GOOGLE_CLIENT_ID dapat diisi sebagai environment variable (diutamakan dari file). Tambahkan origin HTTPS domain yang benar di Google Cloud. requirements.txt untuk hosting sudah menyertakan dependensi Google. Jangan memasukkan Client Secret ke file frontend.
+
+AKUN EMAIL YANG SUDAH ADA
+Masuk menggunakan password terlebih dahulu, buka Akun saya, lalu hubungkan Google. Email Google harus sama. Akun tidak ditautkan otomatis hanya karena emailnya cocok. Akun Google baru yang belum punya akun SECOND IN dapat masuk sekaligus dibuatkan profil setelah token Google berhasil diverifikasi.
+
+PENGUJIAN
+Validasi nonce, penolakan token tidak valid, replay, asal permintaan, dan pengaitan akun diuji menggunakan respons verifikasi tiruan di unit test. Upload foto profil diuji dengan upload multipart dan database temporer. Login ke Google sungguhan belum diuji tanpa Client ID dan persetujuan akun kalian.
+
+ACUAN IMPLEMENTASI
+https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid
+https://developers.google.com/identity/gsi/web/guides/verify-google-id-token
+https://developers.google.com/identity/gsi/web/reference/js-reference

@@ -1,20 +1,57 @@
-PROJEK ETP #4 - SECOND IN
+PROJEK ETP #5 — SECOND IN
 
-CARA MEMBUKA DI WINDOWS
-1. Ekstrak ZIP hingga folder PROJEK ETP #4 terlihat.
-2. Klik dua kali JALANKAN_WINDOWS.bat.
-3. Tunggu terminal Python terbuka, lalu buka http://localhost:8000 di Chrome.
-4. Jika sebelumnya sudah membuka versi lama, tekan Ctrl + Shift + R.
+MEMBUKA WEB
+1. Ekstrak seluruh ZIP terlebih dahulu.
+2. Windows: klik dua kali BUKA_BERANDA_BARU.bat (JALANKAN_WINDOWS.bat juga membuka beranda yang sama).
+   Mac/Linux: buka terminal di folder proyek, jalankan python3 start_secondin.py.
+3. Browser akan terbuka otomatis ke beranda ETP #5. Gunakan alamat yang dibuka otomatis / tercetak di terminal, bukan tab localhost:8000 versi sebelumnya.
+4. Judul tab harus SECOND IN — ETP #5 · Revisi 8. Di bagian bawah halaman tertulis ETP #5 · Revisi 8 · Belanja, nego, dan checkout.
 
-REVISI TERAKHIR
-- Halaman Pesan dan Bantuan menampilkan Coming Soon.
-- Sudut elemen website berbentuk kotak.
-- Form Jual Barang menerima JPG/JPEG/PNG (maksimum 5 MB).
-- Gambar upload disimpan dalam folder uploads saat server berjalan.
+Python 3.10 atau lebih baru perlu terpasang. Untuk pemakaian lokal tidak perlu npm atau paket Python tambahan. Jangan membuka index.html dengan klik dua kali; peluncur akan memilih port baru jika port sebelumnya sedang dipakai. Tidak ada proses lain yang dihentikan.
 
-DATABASE
-- Saat pertama kali dijalankan, Python membuat second_in.db secara otomatis.
-- Jika sudah punya database berisi barang sendiri, salin second_in.db LAMA ke folder ini SEBELUM menjalankan server.
-- Jangan menimpa database lama kalau ingin mempertahankan barang yang sudah kamu posting.
+AKUN CONTOH LOKAL
+Penjual: penjual@secondin.test / demo12345
+Pembeli: pembeli@secondin.test / demo12345
+Bisa juga mendaftar akun baru. Gunakan browser/profil berbeda untuk menguji pembeli dan penjual sekaligus.
 
-CATATAN: Saat website di-host pada Render tanpa penyimpanan permanen, file di folder uploads bisa hilang setelah deploy atau restart instance. Untuk penggunaan publik, pakai penyimpanan file cloud.
+CARA BELANJA
+Buka barang -> Beli sekarang, atau pilih barang dari keranjang -> tambah/pilih alamat -> pilih layanan pengiriman -> pilih metode pembayaran -> Buat pesanan -> Simulasikan pembayaran berhasil -> lihat halaman Pembelian.
+
+Penjual memasukkan resi dari Jual Barang / Ruang penjual. Pembeli dapat menandai paket tiba, menyelesaikan pesanan, lalu memberi ulasan. Jika ada masalah, gunakan Ajukan kendala sebelum menyelesaikan pesanan.
+
+NEGO
+Chat penjual -> Nego harga -> penjual menerima/menolak. Harga yang diterima berlaku khusus pembeli tersebut saat checkout, selama 24 jam. Tawaran tidak menyimpan stok. Barang ditahan 30 menit setelah pesanan dibuat; pesanan yang tidak dibayar akan kedaluwarsa dan barang tersedia kembali saat aplikasi mengecek API.
+
+PEMBAYARAN DAN PENGIRIMAN
+Versi ini memakai simulasi pembayaran dan tarif pengiriman. Tidak ada tagihan, rekening penampung, pengembalian dana, atau pemesanan kurir sungguhan. Resi dimasukkan manual oleh penjual. Riwayat status mengikuti tindakan pembeli/penjual, bukan pelacakan kurir otomatis.
+
+DATA
+Logo dan kedua CSS dasar dari ETP #4 dipertahankan. Akun, produk, foto upload, dan riwayat pesanan awal tetap disertakan. Perubahan schema ditambahkan saat server mulai. Simpan second_in.db dan folder uploads jika memindahkan proyek. Jangan menggunakan RESET_DEMO.bat jika ingin mempertahankan data.
+
+FITUR LAIN
+Filter merek/ukuran/kota, galeri maksimal 5 foto, profil dan ikuti toko, alamat tersimpan, favorit, chat pribadi, arsip/edit barang, notifikasi, dan ringkasan penjualan.
+
+UJI OTOMATIS
+python -m unittest discover -s tests -v
+Pengujian menggunakan database temporer, bukan database utama.
+
+MASUK DAN DAFTAR
+Halaman Masuk dan Daftar terpisah. Klik Daftar dulu jika belum punya akun. Email yang belum terdaftar saat login otomatis diarahkan ke formulir daftar, dengan email tetap terisi. Akun tidak dibuat sebelum formulir daftar diselesaikan.
+
+GAMBAR BERANDA
+Foto interior toko vintage dari Pinterest, disimpan lokal sebagai hero_pinterest.jpg.
+Pin sumber: https://www.pinterest.com/pin/the-25-best-vintage-stores-in-america--704250460457128372/
+File sumber: https://i.pinimg.com/originals/6c/10/e6/6c10e6736828d77276c81c3065ad86ca.jpg
+Foto ditampilkan memenuhi hero dengan lapisan gelap agar tulisan terbaca.
+
+JUMLAH SUKA
+Angka di samping hati dihitung dari pengguna yang menyimpan barang ke favorit. Pengguna harus masuk sebelum menyukai barang. Angka 0 berarti belum ada pengguna yang menyukai barang tersebut.
+
+BERANDA REVISI 8
+Font pendukung Lato disertakan lokal di assets/fonts. Judul tetap Plus Jakarta Sans. Pintasan budget dan merek memakai barang yang tersedia; tab Baru masuk / Harga terendah / Paling disukai mengurutkan barang yang sama. Maksimal 8 barang tampil di bagian utama. Tidak ada jumlah stok, ulasan, promo atau diskon buatan.
+
+FOTO PROFIL DAN GOOGLE
+Akun saya -> Pilih foto untuk mengunggah JPG/PNG maksimal 5 MB. Foto tersimpan di akun dan dapat dihapus. Login Google perlu Client ID milik kalian; lihat GOOGLE_LOGIN.txt dan AKTIFKAN_LOGIN_GOOGLE.bat. Fitur email/password tetap dapat dipakai tanpa paket Google.
+
+BERANDA REVISI 8
+Kartu produk memiliki baris nama, harga, detail, penjual dan tombol yang sejajar. Deretan Di bawah Rp50 ribu memakai produk tersedia; Terakhir dilihat memakai riwayat di tab browser ini dan bisa dihapus.
